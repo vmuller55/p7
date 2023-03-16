@@ -1,0 +1,43 @@
+@media screen and (max-width: 1009px) {
+    .recipeCard {
+        flex-direction: row;
+        max-width: unset;
+        padding-right: 60px;
+        width: 100%;
+    }
+
+    .recipeCard img{
+        width: 80%;
+        height: 100%;
+    }
+    .description p{
+        display: none;
+    }
+    .timeAndIconWrapper{
+        flex-direction: column;
+        justify-content: center;
+    }
+    .toDoWrapper{
+        width: 100%;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    .detail h4{
+        font-size: 18px;
+        max-width: unset;
+        
+    }
+}
+
+@media screen and (max-width: 749px) {
+
+    .search{
+        width: 80%;
+        margin: 17px 0px;
+        margin: auto;
+        color: aqua;
+    }
+    
+
+
+}

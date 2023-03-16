@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond&family=Lato&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c24c090a9b.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="./assets/images/logo.svg">
+    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Les petits plats</title>
+</head>
+<body>
+
+    <header>
+        <div class="logoWrapper">
+            <img src="./assets/images/logo.svg">
+            <h1>Les petits plats</h1>
+        </div>
+        <form class="search" method="post">
+            <input id="searchBar" placeholder="Rechercher une recette">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </form>
+    </header>
+
+    <main>
+
+        <div id="checkedTagList"></div>
+
+        <section id="searchMenu">
+            <div id="ingredients">
+                <div class="btnSelect">
+                    <h2>Ingrédients</h2>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div id="ingredientsList">
+                    <div id="inputCloseIngredient">
+                        <input id="inputIngredient" type="text" placeholder="Rechercher un ingredient">
+                        <i class="fa-solid fa-chevron-up"></i>
+                    </div>
+                </div>
+            </div>
+            <div id="device">
+                <div class="btnSelect">
+                    <h2>Appareils</h2>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div id="devicesList">
+                    <div id="inputCloseDevice">
+                        <input id="inputDevice" type="text" placeholder="Rechercher un appareil">
+                        <i class="fa-solid fa-chevron-up"></i>
+                    </div>
+                </div>
+            </div>
+            <div id="utensils">
+                <div class="btnSelect">
+                    <h2>Ustensiles</h2>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div id="ustensilsList">
+                    <div id="inputCloseUstensil">
+                        <input id="inputUstensil" type="text" placeholder="Rechercher un ustensile">
+                        <i class="fa-solid fa-chevron-up"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recipeCards"></section>
+
+    </main>
+
+    <script src="js/recipes.js"></script>
+    <script src="./js/recipeClass.js"></script>
+    <script src="./js/index.js"></script>
+    
+    
+
+</body>
+</html>

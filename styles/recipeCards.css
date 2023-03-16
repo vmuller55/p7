@@ -1,0 +1,77 @@
+#recipeCards {
+    display: flex;
+    flex-direction: row;
+    margin: 82px 100px 0px 100px;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+.recipeCard {
+    display: flex;
+    flex-direction: column;
+    background-color: #e7e7e7;
+    max-width: 380px;
+    border-radius: 5px;
+}
+
+.recipeCard img{
+    background-color: #c7bebe;
+    width: 380px;
+    height: 178px;
+    margin: 0;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.nameAndTime{
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 20px 0px 20px;
+    font-size: 18px;
+}
+.nameAndTime h3{
+    font-size: 18px;
+    max-width: 250px;
+    
+}
+.nameAndTime i{
+    font-size: 20px;
+}
+.nameAndTime p{
+    font-weight: 700;
+}
+
+.timeAndIconWrapper{
+    display: flex;
+    align-items: center;
+}
+
+.toDoWrapper{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 20px;
+}
+.description p{
+    margin-top: 0px;
+    margin-right: 20px;
+    max-width: 170px;
+    max-height: 109px;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+
+
+.timeAndIconWrapper i{
+    margin-right: 7px;
+}
+
+.detail h4{
+    margin: 0;
+    margin-left: 20px;
+    font-size: 12px;
+    font-weight: 400;
+    max-width: 160px;
+    
+}

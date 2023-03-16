@@ -1,0 +1,153 @@
+@import url(./normalize.css);
+@import url(./recipeCards.css);
+@import url(./responsive.css);
+
+*{
+    box-sizing: border-box;
+    font-family: 'lato', sans-serif;
+}
+
+.logoWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 42px;
+}
+
+.logoWrapper img{
+    width: 50px;
+}
+
+.logoWrapper h1{
+    font-family: "DM sans", sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    color: #D04F4F;
+    margin: 0;
+}
+
+#searchBar{
+    width: 100%;
+    height: 69px;
+    background-color: #E7E7E7;
+    border-radius: 5px;
+    border: none;
+}
+
+#searchBar::placeholder{
+    padding-left: 24px;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+.search{
+    display: flex;
+    background-color: #E7E7E7;
+    border-radius: 5px;
+    border: none;
+    margin: 17px 100px 20px 100px;
+}
+
+.search i {
+    margin: auto;
+    padding-right: 15px;
+    font-size: 32px;
+    
+}
+
+#searchMenu{
+    display: flex;
+    column-gap: 20px;
+    margin-left: 100px;
+}
+
+.btnSelect{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+    width: 170px;
+    height: 60px;
+}
+.btnSelect h2{
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+#ingredients{
+    background-color: #3282F7;
+    border-radius: 5px;
+}
+
+#device{
+    background-color:#68D9A4;
+    border-radius: 5px;
+}
+
+#utensils{
+    background-color: #ED6454;
+    border-radius: 5px;
+}
+
+#ingredientsList, #devicesList, #ustensilsList {
+    display: none;
+}
+
+@media screen and (max-width: 749px) {
+
+    .search{ 
+        margin: 0;
+        margin: auto;
+        margin-bottom: 20px;
+    }
+    #searchMenu{
+        margin: 0;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 20px;
+    }
+    .btnSelect{
+        padding: 20px;
+        width: 100%;
+    }
+
+    #ingredients{
+        width: 50%;
+    }
+    
+    #device{
+        width: 50%;
+    }
+    
+    #utensils{
+        width: 50%;
+    }
+
+    .nameAndTime{
+        width: 100%;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .timeAndIconWrapper{
+        flex-direction: row;
+    }
+    .recipeCard{
+        padding: 0px;
+        height: 100px;
+        margin: 0px 50px;
+    }
+    .recipeCard img{
+        display: none;
+    }
+    .toDoWrapper{
+        display: none;
+    }
+    #recipeCards {
+        margin: 0;
+        margin: auto;
+        margin-top: 30px;
+        row-gap: 20px;
+    }
+}
