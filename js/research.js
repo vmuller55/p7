@@ -1,6 +1,7 @@
 const recipeSection = document.getElementById("recipeCards");
 const searchBar = document.getElementById("searchBar");
 searchBar.addEventListener("input", principalSearch);
+searchBar.addEventListener("keypress", (e) => {if(e.key === 'Enter') { e.preventDefault()}});
 
 function principalSearch(){
     const inputValue = searchBar.value.trim();
@@ -19,17 +20,26 @@ function principalSearch(){
                     }
                 }
             }
+            
         }
         recipeSection.innerHTML = "";
         displayRecipe(result);
+        if(result.length == 0 && inputValue.length >= 3) {
+            let message = 'Aucune recettes correspondent à vos critères. Essayez "tarte aux pommes", "poisson" ou changez les filtres de recherche.'
+            noRecipe (message)
+        }
     }
     else{
-        console.log("pas de recettes")
+        let message = 'Veuillez entrer au moins 3 caractères'
+        noRecipe(message);
     }
+    
     if(inputValue.length == 0) {
         recipeSection.innerHTML = "";
         displayRecipe(recipes);
+       
     }
+    
     
 }
 

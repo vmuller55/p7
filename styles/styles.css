@@ -90,7 +90,7 @@
     border-radius: 5px;
 }
 
-#ingredientsList, #devicesList, #ustensilsList {
+.ingredientsList, .devicesList, .ustensilsList {
     display: none;
 }
 
