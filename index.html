@@ -35,49 +35,34 @@
         </div>
 
         <section id="searchMenu">
-            <div id="ingredients">
-                <div class="btnSelect">
-                    <h2>Ingrédients</h2>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="ingredientsList">
+
+            <div class="btnSelectIngredients">
+                <input id="inputIngredient" placeholder="Ingédients">
+                <i class="fa-solid fa-chevron-down"></i>
+                <div class="ingredientDropDown">
                     <ul id="ingredientsList">
 
                     </ul>
-                    <div id="inputCloseIngredient">
-                        <input id="inputIngredient" type="text" placeholder="Rechercher un ingredient">
-                        <i class="fa-solid fa-chevron-up"></i>
-                    </div>
                 </div>
             </div>
-            <div id="device">
-                <div class="btnSelect">
-                    <h2>Appareils</h2>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="devicesList">
+
+            <div class="btnSelect devices">
+                <input id="inputDevice" placeholder="Appareils">
+                <i class="fa-solid fa-chevron-down"></i>
+                <div class="deviceDropDown">
                     <ul id="devicesList">
 
                     </ul>
-                    <div id="inputCloseDevice">
-                        <input id="inputDevice" type="text" placeholder="Rechercher un appareil">
-                        <i class="fa-solid fa-chevron-up"></i>
-                    </div>
                 </div>
             </div>
-            <div id="utensils">
-                <div class="btnSelect">
-                    <h2>Ustensiles</h2>
-                    <i class="fa-solid fa-chevron-down"></i>
-                </div>
-                <div class="ustensilsList">
+
+            <div class="btnSelect ustensils">
+                <input id="inputUstensil" placeholder="Ustensiles">
+                <i class="fa-solid fa-chevron-down"></i>
+                <div class="ustensilDropDown">
                     <ul id="ustensilsList">
 
                     </ul>
-                    <div id="inputCloseUstensil">
-                        <input id="inputUstensil" type="text" placeholder="Rechercher un ustensile">
-                        <i class="fa-solid fa-chevron-up"></i>
-                    </div>
                 </div>
             </div>
         </section>
@@ -85,14 +70,6 @@
         <section id="recipeCards"></section>
 
     </main>
-
-    <script src="./js/recipes.js"></script>
-    <script src="./js/recipeClass.js"></script>
-    <script src="./js/index.js"></script>
-    <script src="./js/research.js"></script>
-    <script src="./js/noRecipe.js"></script>
-
-    
-
+    <script type="module" src="./js/index.js"></script>
 </body>
 </html>

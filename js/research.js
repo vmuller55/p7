@@ -1,36 +1,27 @@
 const recipeSection = document.getElementById("recipeCards");
-const searchBar = document.getElementById("searchBar");
-searchBar.addEventListener("input", principalSearch);
-searchBar.addEventListener("keypress", (e) => {if(e.key === 'Enter') { e.preventDefault()}});
+import { displayRecipe } from "./index.js";
 
-function principalSearch(){
-    const inputValue = searchBar.value.trim();
-    
+export function principalSearch(recipes, inputValue){
+
+    inputValue = inputValue.trim();
     let result = [];
+    let message = '';
+
     if(inputValue.length >= 3) { 
-        for(let i = 0; i < recipes.length; i++) {
-            if(recipes[i].name.toLowerCase().includes(inputValue.toLowerCase()) || recipes[i].description.toLowerCase().includes(inputValue.toLowerCase())) {
-                result.push(recipes[i]);
+        recipes.forEach(recipe => {
+            if(recipe.includeName(inputValue) || recipe.includeDescription(inputValue) || recipe.includeIngredient(inputValue)) {
+                result.push(recipe);
             }
-            else{
-                for(let j = 0; j< recipes[i].ingredients.length; j++) {
-                    if(recipes[i].ingredients[j].ingredient.toLowerCase().includes(inputValue.toLowerCase())){
-                        result.push(recipes[i]);
-                        break;
-                    }
-                }
-            }
-            
-        }
+        })
         recipeSection.innerHTML = "";
         displayRecipe(result);
-        if(result.length == 0 && inputValue.length >= 3) {
-            let message = 'Aucune recettes correspondent à vos critères. Essayez "tarte aux pommes", "poisson" ou changez les filtres de recherche.'
+        if(result.length == 0) {
+            message = 'Aucune recettes correspondent à vos critères. Essayez "tarte aux pommes", "poisson" ou changez les filtres de recherche.'
             noRecipe (message)
         }
     }
     else{
-        let message = 'Veuillez entrer au moins 3 caractères'
+        message = 'Veuillez entrer au moins 3 caractères'
         noRecipe(message);
     }
     
@@ -38,8 +29,14 @@ function principalSearch(){
         recipeSection.innerHTML = "";
         displayRecipe(recipes);
        
-    }
-    
-    
+    }   
 }
 
+function noRecipe (message) {
+    recipeSection.innerHTML = "";
+    const displayMessage = document.createElement('h3');
+    displayMessage.classList.add('displayMessage');
+    displayMessage.textContent = message;
+    recipeSection.appendChild(displayMessage);
+
+}

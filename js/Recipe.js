@@ -1,4 +1,4 @@
-class recipeData {
+export default class Recipe {
     constructor(data) {
         this.id = data.id,
         this.name = data.name,
@@ -87,5 +87,23 @@ class recipeData {
 
         return article;
 
+    }
+
+    includeName(nameSearch) {
+      return this.name.includes(nameSearch);   
+    }
+
+    includeDescription(descriptionSearch) {
+        return this.description.includes(descriptionSearch);  
+    }
+    
+    includeIngredient(ingredientSearch) {
+        let result = false;
+        this.ingredients.forEach(ingredient => {
+            if(Array.from(ingredient).includes(ingredientSearch)) {
+                result = true;
+            }
+        }) 
+        return result;  
     }
 }
