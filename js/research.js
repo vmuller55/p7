@@ -1,5 +1,8 @@
 const recipeSection = document.getElementById("recipeCards");
+
 import { displayRecipe } from "./index.js";
+import {createTagDom} from './index.js'
+
 
 export function principalSearch(recipes, inputValue){
 
@@ -39,4 +42,35 @@ function noRecipe (message) {
     displayMessage.textContent = message;
     recipeSection.appendChild(displayMessage);
 
+}
+
+
+
+
+export function searchInIngredientTag(ingredientsTab, inputValue){
+    const ingredientList = document.getElementById('ingredientsList');
+    ingredientList.innerHTML = '';
+    ingredientsTab.forEach(findIngredient => {
+        if(findIngredient.toLowerCase().includes(inputValue.toLowerCase())) {
+            createTagDom(findIngredient, 'ingredients');
+        }
+    })
+}
+export function searchInDeviceTag(deviceTab, inputValue){
+    const deviceList = document.getElementById('devicesList');
+    deviceList.innerHTML = '';
+    deviceTab.forEach(findDevice => {
+        if(findDevice.toLowerCase().includes(inputValue.toLowerCase())) {
+            createTagDom(findDevice, 'devices');
+        }
+    })
+}
+export function searchInUstensilTag(ustensilsTab, inputValue){
+    const ustensilList = document.getElementById('ustensilsList');
+    ustensilList.innerHTML = '';
+    ustensilsTab.forEach(findUstensil => {
+        if(findUstensil.toLowerCase().includes(inputValue.toLowerCase())) {
+            createTagDom(findUstensil, 'ustensils');
+        }
+    })
 }

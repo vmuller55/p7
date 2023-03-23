@@ -36,13 +36,65 @@
 
         <section id="searchMenu">
 
-            <div class="btnSelectIngredients">
-                <input id="inputIngredient" placeholder="Ingédients">
-                <i class="fa-solid fa-chevron-down"></i>
-                <div class="ingredientDropDown">
-                    <ul id="ingredientsList">
+            <div class="tagWrapper">
+                <div class="ingredientBtn">
+                    <h2>Ingrédient</h2>
+                    <i class="fa-solid fa-chevron-down" id="ingredientsDown"></i>
+                </div>
+                <div class="ingredientList">
+                    <div class="inputCloseIngredient">
+                        <input id="inputIngredient" type="text" placeholder="Rechercher un Ingrédient">
+                        <i class="fas fa-chevron-up" id="ingredientsUp"></i>
+                    </div>
+                    <div id = ingredientsDiv>
+                        <ul id="ingredientsList">
 
-                    </ul>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tagWrapper">
+                <div class="deviceBtn">
+                    <h2>Appareils</h2>
+                    <i class="fa-solid fa-chevron-down" id="devicesDown"></i>
+                </div>
+                <div class="deviceList">
+                    <div class="inputCloseDevice">
+                        <input id="inputDevice" type="text" placeholder="Rechercher un Appareil">
+                        <i class="fas fa-chevron-up" id="devicesUp"></i>
+                    </div>
+                    <div id = deviceDiv>
+                        <ul id="devicesList">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tagWrapper">
+                <div class="ustensilBtn">
+                    <h2>Ustensiles</h2>
+                    <i class="fa-solid fa-chevron-down" id="ustensilsDown"></i>
+                </div>
+                <div class="ustensilList">
+                    <div class="inputCloseUstensil">
+                        <input id="inputUstensil" type="text" placeholder="Rechercher un Ustensile">
+                        <i class="fas fa-chevron-up" id="ustensilsUp"></i>
+                    </div>
+                    <div id = ustensilDiv>
+                        <ul id="ustensilsList">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="btnSelectIngredients">
+                <input id="inputIngredient" placeholder="Ingédients">
+                <img src="./assets/images/dropdown.svg" id="button">
+                <div class="ingredientDropDown">
+                    
                 </div>
             </div>
 
@@ -64,7 +116,7 @@
 
                     </ul>
                 </div>
-            </div>
+            </div> -->
         </section>
 
         <section id="recipeCards"></section>

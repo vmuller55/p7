@@ -1,15 +1,28 @@
 import { recipes } from "./recipes.js";
 import Recipe from "./Recipe.js";
-import { principalSearch } from "./research.js";
+import { principalSearch, searchInIngredientTag, searchInDeviceTag, searchInUstensilTag } from "./research.js";
+
 
 const recipeClass = [];
 const searchBar = document.getElementById("searchBar");
 
-const inputIngrdient = document.getElementById('inputIngredient');
-const drop = document.getElementById('ingredientsList');
-inputIngrdient.addEventListener('focus', ()=> {inputIngrdient.style.width = '667px'; inputIngrdient.style.borderRadius = "5px 5px 0px 0px"; drop.style.display = 'flex'; inputIngrdient.setAttribute('placeholder', 'Rechercher un ingrédient')})
+const ingredientListOpen = document.getElementById('ingredientsDown');
+const ingredientListClose = document.getElementById('ingredientsUp');
+const inputIngredientValue = document.getElementById('inputIngredient');
+const deviceListOpen = document.getElementById('devicesDown');
+const deviceListClose = document.getElementById('devicesUp');
+const inputDeviceValue = document.getElementById('inputDevice');
+const ustensilListOpen = document.getElementById('ustensilsDown');
+const ustensilListClose = document.getElementById('ustensilsUp');
+const inputUstensilValue = document.getElementById('inputUstensil');
+
+var ingredientsTab = [];
+var ustensilsTab = [];
+var devicesTab = [];
+
 
 export function displayRecipe(recipes) {
+    
     let recipeSection = document.getElementById("recipeCards");
 
     recipes.forEach(recipe => {
@@ -20,10 +33,7 @@ export function displayRecipe(recipes) {
     });
 }
 
-function createTabTag(recipes) {
-    let ingredientsTab = [];
-    let ustensilsTab = [];
-    let devicesTab = [];
+export function createTabTag(recipes) {
 
     recipes.forEach(recipe => {
         recipe.ingredients.forEach((ingredient) => { 
@@ -48,14 +58,27 @@ function createTabTag(recipes) {
     devicesTab.forEach((device) => {
         createTagDom(device, 'devices');
     })
-    // researchByTag(ingredientsTab, ustensilsTab, devicesTab)
 }
 
-function createTagDom(element, type) {
+export function createTagDom(element, type) {
     const ulLocation = document.getElementById(type + 'List');
     const liTag = document.createElement('li');
     liTag.textContent = element;
     ulLocation.appendChild(liTag);
+}
+
+function openList(type) {
+    let whichList = document.querySelector('.' + type + 'List');
+    whichList.style.display = 'block';
+    let whichBtn = document.querySelector('.' + type + 'Btn');
+    whichBtn.style.width = '600px'
+}
+
+function closeList(type) {
+    let whichList = document.querySelector('.' + type + 'List');
+    whichList.style.display = 'none';
+    let whichBtn = document.querySelector('.' + type + 'Btn');
+    whichBtn.style.width = 'unset'
 }
 
 function init() {
@@ -68,3 +91,16 @@ init();
 
 searchBar.addEventListener("input", () => {principalSearch(recipeClass, searchBar.value)});
 searchBar.addEventListener("keypress", (e) => {if(e.key === 'Enter') { e.preventDefault()}});
+
+ingredientListOpen.addEventListener('click', () => {openList('ingredient')});
+ingredientListClose.addEventListener('click', () => {closeList('ingredient')});
+
+deviceListOpen.addEventListener('click', () => {openList('device')});
+deviceListClose.addEventListener('click', () => {closeList('device')});
+
+ustensilListOpen.addEventListener('click', () => {openList('ustensil')});
+ustensilListClose.addEventListener('click', () => {closeList('ustensil')});
+
+inputIngredientValue.addEventListener('input', () => {searchInIngredientTag(ingredientsTab, inputIngredientValue.value)});
+inputDeviceValue.addEventListener('input', () => {searchInDeviceTag(devicesTab, inputDeviceValue.value)});
+inputUstensilValue.addEventListener('input', () => {searchInUstensilTag(ustensilsTab, inputUstensilValue.value)});
