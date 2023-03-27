@@ -1,10 +1,11 @@
 import { recipes } from "./recipes.js";
 import Recipe from "./Recipe.js";
-import { principalSearch, searchInIngredientTag, searchInDeviceTag, searchInUstensilTag } from "./research.js";
+import { principalSearch, searchInIngredientTag, searchInDeviceTag, searchInUstensilTag, filterWithTag, tabTag } from "./research.js";
 
 
 const recipeClass = [];
 const searchBar = document.getElementById("searchBar");
+
 
 const ingredientListOpen = document.getElementById('ingredientsDown');
 const ingredientListClose = document.getElementById('ingredientsUp');
@@ -24,7 +25,8 @@ var devicesTab = [];
 export function displayRecipe(recipes) {
     
     let recipeSection = document.getElementById("recipeCards");
-
+    recipeSection.innerHTML = "";
+    
     recipes.forEach(recipe => {
         const createRecipe = new Recipe(recipe);
         recipeClass.push(createRecipe);
@@ -61,10 +63,35 @@ export function createTabTag(recipes) {
 }
 
 export function createTagDom(element, type) {
-    const ulLocation = document.getElementById(type + 'List');
-    const liTag = document.createElement('li');
+    let ulLocation = document.getElementById(type + 'List');
+    let liTag = document.createElement('li');
     liTag.textContent = element;
     ulLocation.appendChild(liTag);
+    liTag.addEventListener('click',() => {addTag(element, type); liTag.remove(); tabTag.push(element.toLowerCase()), filterWithTag(recipes)})
+}
+
+function addTag(element, type) {
+    let ulLocation = document.getElementById('tagChecked');
+    let liTag = document.createElement('li');
+    liTag.classList.add(type + 'TagChecked')
+    liTag.textContent = element;
+    let closeCross = document.createElement('i');
+    closeCross.setAttribute('class', 'fa-sharp fa-regular fa-circle-xmark');
+    liTag.appendChild(closeCross);
+    ulLocation.appendChild(liTag);
+    closeCross.addEventListener('click', () => {liTag.remove(); createTagDom(element, type); display(ulLocation, liTag), filterWithTag(recipes)});
+    let tabListTag = Array.from(ulLocation.children);
+    if(tabListTag.length > 0) {
+        filterWithTag(recipes);  
+    }
+    
+}
+
+function display(ulLocation, liTag){
+    let value = liTag.textContent.toLowerCase();
+    console.log(Array.from(ulLocation.children).length)
+    let indexDelete = tabTag.indexOf(value);
+    tabTag.splice(indexDelete, 1)
 }
 
 function openList(type) {
@@ -92,15 +119,16 @@ init();
 searchBar.addEventListener("input", () => {principalSearch(recipeClass, searchBar.value)});
 searchBar.addEventListener("keypress", (e) => {if(e.key === 'Enter') { e.preventDefault()}});
 
-ingredientListOpen.addEventListener('click', () => {openList('ingredient')});
+ingredientListOpen.addEventListener('click', () => {openList('ingredient'), closeList('device'), closeList('ustensil')});
 ingredientListClose.addEventListener('click', () => {closeList('ingredient')});
 
-deviceListOpen.addEventListener('click', () => {openList('device')});
+deviceListOpen.addEventListener('click', () => {openList('device'), closeList('ingredient'), closeList('ustensil')});
 deviceListClose.addEventListener('click', () => {closeList('device')});
 
-ustensilListOpen.addEventListener('click', () => {openList('ustensil')});
+ustensilListOpen.addEventListener('click', () => {openList('ustensil'), closeList('device'), closeList('ingredient')});
 ustensilListClose.addEventListener('click', () => {closeList('ustensil')});
 
 inputIngredientValue.addEventListener('input', () => {searchInIngredientTag(ingredientsTab, inputIngredientValue.value)});
 inputDeviceValue.addEventListener('input', () => {searchInDeviceTag(devicesTab, inputDeviceValue.value)});
 inputUstensilValue.addEventListener('input', () => {searchInUstensilTag(ustensilsTab, inputUstensilValue.value)});
+

@@ -1,7 +1,11 @@
 const recipeSection = document.getElementById("recipeCards");
 
+export var tabTag = [];
+
 import { displayRecipe } from "./index.js";
-import {createTagDom} from './index.js'
+import {createTagDom} from './index.js';
+
+
 
 
 export function principalSearch(recipes, inputValue){
@@ -74,3 +78,29 @@ export function searchInUstensilTag(ustensilsTab, inputValue){
         }
     })
 }
+
+export function filterWithTag(recipes){
+    let result = [];
+    tabTag.forEach(tag => {
+        recipes.forEach(recipe => {
+            recipe.ingredients.forEach(ingredient => {
+                if(ingredient.ingredient.toLowerCase().includes(tag)) {
+                    result.push(recipe);
+                }
+            })
+            if(recipe.appliance.toLowerCase().includes(tag) || recipe.ustensils.includes(tag)) {
+                result.push(recipe)
+            }
+        })
+    })
+    if(result.length == 0) {
+        recipeSection.innerHTML = "";
+        displayRecipe(recipes)
+    }
+    else{
+        recipeSection.innerHTML = "";
+        displayRecipe(result)
+    }
+}
+
+

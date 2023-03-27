@@ -1,0 +1,48 @@
+#checkedTagList{
+    display: flex;
+    flex-direction: row;
+    margin-left: 100px;
+    color: white;
+    flex-wrap: wrap;
+}
+
+.ingredientsTagChecked, .devicesTagChecked, .ustensilsTagChecked{
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    font-size: 14px;
+    
+}
+
+#checkedTagList li{
+    margin-right: 50px;
+    padding : 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#checkedTagList i{
+    margin-left: 10px;
+    font-size: 20px;
+}
+
+.ingredientsTagChecked{
+    background-color: #3282F7;
+}
+
+.devicesTagChecked{
+    background-color: #68D9A4;
+}
+
+.ustensilsTagChecked{
+    background-color: #ED6454;
+}
+
+#tagChecked{
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+    flex-wrap: wrap;
+    row-gap: 20px;
+    justify-content: left;
+}
