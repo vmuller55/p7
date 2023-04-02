@@ -207,7 +207,6 @@ function init() {
 init();
 
 searchBar.addEventListener("input", () => {
-    console.log(searchBar.value)
     principalSearch(whichSearch(resultTag), searchBar.value,ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab),
     createTabTag(resultTag)
 });
