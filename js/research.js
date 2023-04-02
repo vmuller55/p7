@@ -34,16 +34,19 @@ export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, us
     if(searchBar.value.length < 3 && ingredientTagCheckedTab.length == 0 && ustensilTagCheckedTab.length == 0  && deviceTagCheckedTab.length == 0) {
         message = 'Veuillez entrer au moins 3 caractères'
         noRecipe(message);
+    }
+    else {
+        if(resultTag.length == 0) {
+            message = 'Aucune recettes correspondent à vos critères. Essayez "tarte aux pommes", "poisson" ou changez les filtres de recherche.'
+            noRecipe (message)
+        }
     }    
     if(!searchBar.value && ingredientTagCheckedTab.length == 0 && ustensilTagCheckedTab.length == 0  && deviceTagCheckedTab.length == 0) {
         displaySearchRecipes(recipeClass)
         return resultTag = []
     }
     
-    if(resultTag.length == 0) {
-        message = 'Aucune recettes correspondent à vos critères. Essayez "tarte aux pommes", "poisson" ou changez les filtres de recherche.'
-        noRecipe (message)
-    }
+    
     resultTag = [...new Set(resultTag)];
     return resultTag
 }
