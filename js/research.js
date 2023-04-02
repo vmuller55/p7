@@ -77,6 +77,8 @@ function searchWithBar(recipes, inputValue) {
     }
 }
 
+// ici la branch native
+
 function searchWithTag(recipes, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab) {
     recipes.forEach(recipe => {
         ingredientTagCheckedTab.forEach(ingredient => {
