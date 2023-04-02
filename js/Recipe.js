@@ -3,9 +3,7 @@ export default class Recipe {
         this.id = data.id,
         this.name = data.name,
         this.servings = data.servings,
-        this.ingredients = data.ingredients,
-        this.quantity = data.quantity,
-        this.unit = data.unit,
+        this.ingredients = data.ingredients,   
         this.time = data.time,
         this.description = data.description,
         this.appliance = data.appliance,
@@ -90,20 +88,34 @@ export default class Recipe {
     }
 
     includeName(nameSearch) {
-      return this.name.includes(nameSearch);   
+        return this.name.toLowerCase().includes(nameSearch.toLowerCase());   
     }
 
     includeDescription(descriptionSearch) {
-        return this.description.includes(descriptionSearch);  
+        return this.description.toLowerCase().includes(descriptionSearch.toLowerCase());  
     }
     
     includeIngredient(ingredientSearch) {
         let result = false;
         this.ingredients.forEach(ingredient => {
-            if(Array.from(ingredient).includes(ingredientSearch)) {
+            if(ingredient.ingredient.toLowerCase().includes(ingredientSearch.toLowerCase())) {
                 result = true;
             }
         }) 
         return result;  
+    }
+
+    includeAppliance(applianceSearch) {
+        return this.appliance.toLowerCase().includes(applianceSearch.toLowerCase());  
+    }
+
+    includeUstensil(ustensilSearch) {
+        let result = false;
+        this.ustensils.forEach(ustensil => {
+            if(ustensil.toLowerCase().includes(ustensilSearch.toLowerCase())) {
+                result= true;
+            }
+        })
+        return result;
     }
 }

@@ -1,46 +1,55 @@
 const recipeSection = document.getElementById("recipeCards");
+const searchBar = document.getElementById("searchBar");
 
-export var tabTag = [];
+export var resultTag = [];
 
-import { displayRecipe } from "./index.js";
+
+import { recipeClass } from './index.js';
+import { displaySearchRecipes } from './index.js';
 import {createTagDom} from './index.js';
 
-
-
-
-export function principalSearch(recipes, inputValue){
+export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab){
 
     inputValue = inputValue.trim();
-    let result = [];
     let message = '';
 
-    if(inputValue.length >= 3) { 
-        recipes.forEach(recipe => {
-            if(recipe.includeName(inputValue) || recipe.includeDescription(inputValue) || recipe.includeIngredient(inputValue)) {
-                result.push(recipe);
-            }
-        })
-        recipeSection.innerHTML = "";
-        displayRecipe(result);
-        if(result.length == 0) {
-            message = 'Aucune recettes correspondent à vos critères. Essayez "tarte aux pommes", "poisson" ou changez les filtres de recherche.'
-            noRecipe (message)
+    if(ingredientTagCheckedTab.length > 0 || ustensilTagCheckedTab.length > 0 || deviceTagCheckedTab.length > 0) {
+        if(!searchBar.value) {
+            searchWithTag(recipes, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab)
+            displaySearchRecipes(resultTag)
+        }
+        else{
+            searchWithTag(recipes, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab)
+            searchWithBar(resultTag, inputValue); 
+            displaySearchRecipes(resultTag) 
         }
     }
-    else{
+    else{  
+        if(!searchBar.value && ingredientTagCheckedTab || ustensilTagCheckedTab || deviceTagCheckedTab.length){
+            searchWithTag(resultTag, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab)
+        }
+        searchWithBar(recipeClass, inputValue)
+        displaySearchRecipes(resultTag)
+    }
+    if(searchBar.value.length < 3 && ingredientTagCheckedTab.length == 0 && ustensilTagCheckedTab.length == 0  && deviceTagCheckedTab.length == 0) {
         message = 'Veuillez entrer au moins 3 caractères'
         noRecipe(message);
+    }    
+    if(!searchBar.value && ingredientTagCheckedTab.length == 0 && ustensilTagCheckedTab.length == 0  && deviceTagCheckedTab.length == 0) {
+        displaySearchRecipes(recipeClass)
+        return resultTag = []
     }
     
-    if(inputValue.length == 0) {
-        recipeSection.innerHTML = "";
-        displayRecipe(recipes);
-       
-    }   
+    if(resultTag.length == 0) {
+        message = 'Aucune recettes correspondent à vos critères. Essayez "tarte aux pommes", "poisson" ou changez les filtres de recherche.'
+        noRecipe (message)
+    }
+    resultTag = [...new Set(resultTag)];
+    return resultTag
 }
 
 function noRecipe (message) {
-    recipeSection.innerHTML = "";
+    recipeSection.innerHTML = '';
     const displayMessage = document.createElement('h3');
     displayMessage.classList.add('displayMessage');
     displayMessage.textContent = message;
@@ -48,8 +57,66 @@ function noRecipe (message) {
 
 }
 
+function searchWithBar(recipes, inputValue) {
+    if(inputValue.length >= 3) { 
+        recipes.forEach(recipe => {
+            if(recipe.includeName(inputValue) || recipe.includeDescription(inputValue) || recipe.includeIngredient(inputValue)) {
+                resultTag.push(recipe);         
+            }
+        })
+        resultTag.forEach(recipe => {
+            if(!recipe.includeName(inputValue) || !recipe.includeDescription(inputValue) || !recipe.includeIngredient(inputValue)) {
+                removeElementFromArray (resultTag, recipe)         
+            }
+        })
+        resultTag = [... new Set(resultTag)];
+        return resultTag;
+    }
+}
 
-
+function searchWithTag(recipes, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab) {
+    recipes.forEach(recipe => {
+        ingredientTagCheckedTab.forEach(ingredient => {
+            if(recipe.includeIngredient(ingredient)) {
+                resultTag.push(recipe);
+                resultTag = [...new Set(resultTag)];
+            }
+            else {
+                let here = resultTag.indexOf(recipe);
+                if(here !== -1) {
+                    resultTag.splice(here, 1)
+                }   
+            } 
+        })
+        ustensilTagCheckedTab.forEach(ustensil => {
+            if(recipe.includeUstensil(ustensil)) {
+                resultTag.push(recipe)
+                resultTag = [...new Set(resultTag)];
+            }
+            else {
+                let here = resultTag.indexOf(recipe);
+                if(here !== -1) {
+                    resultTag.splice(here, 1)
+                }   
+            }
+        })
+        deviceTagCheckedTab.forEach(device => {
+            if(recipe.includeAppliance(device)) {
+                resultTag.push(recipe)
+                resultTag = [...new Set(resultTag)];
+            }
+            else {
+                let here = resultTag.indexOf(recipe);
+                if(here !== -1) {
+                    resultTag.splice(here, 1)
+                }   
+            }
+        })
+        
+    });
+    resultTag = [...new Set(resultTag)];
+    return resultTag
+}
 
 export function searchInIngredientTag(ingredientsTab, inputValue){
     const ingredientList = document.getElementById('ingredientsList');
@@ -78,29 +145,3 @@ export function searchInUstensilTag(ustensilsTab, inputValue){
         }
     })
 }
-
-export function filterWithTag(recipes){
-    let result = [];
-    tabTag.forEach(tag => {
-        recipes.forEach(recipe => {
-            recipe.ingredients.forEach(ingredient => {
-                if(ingredient.ingredient.toLowerCase().includes(tag)) {
-                    result.push(recipe);
-                }
-            })
-            if(recipe.appliance.toLowerCase().includes(tag) || recipe.ustensils.includes(tag)) {
-                result.push(recipe)
-            }
-        })
-    })
-    if(result.length == 0) {
-        recipeSection.innerHTML = "";
-        displayRecipe(recipes)
-    }
-    else{
-        recipeSection.innerHTML = "";
-        displayRecipe(result)
-    }
-}
-
-
