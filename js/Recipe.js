@@ -98,7 +98,7 @@ export default class Recipe {
     includeIngredient(ingredientSearch) {
         let result = false;
         this.ingredients.forEach(ingredient => {
-            if(ingredient.ingredient.toLowerCase().includes(ingredientSearch.toLowerCase())) {
+            if(ingredient.ingredient.trim().toLowerCase().includes(ingredientSearch.toLowerCase())) {
                 result = true;
             }
         }) 

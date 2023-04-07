@@ -1,126 +1,68 @@
 const recipeSection = document.getElementById("recipeCards");
-const searchBar = document.getElementById("searchBar");
-
-export var resultTag = [];
-
-
-import { recipeClass } from './index.js';
+/**
+ * Importation des fonctions nécéssaires
+ */
 import { displaySearchRecipes } from './index.js';
 import {createTagDom} from './index.js';
-
+/**
+ * Permet d'initialiser la fonction de recherche par tag ou avec la barre de recherche selon plusieurs conditions
+ * @param {Array} recipes Les recettes dans lesquels faire la recherche
+ * @param {string} inputValue La valeur recherchée
+ * @param {Array} ingredientTagCheckedTab le tableau des ingrédients séléctionnés
+ * @param {Array} ustensilTagCheckedTab le tableau des ustensils séléctionnés
+ * @param {Array} deviceTagCheckedTab le tableau des appareils séléctionnés
+ * @returns le resultat des recherches dans la variable resultat
+ */
 export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab){
-
-    inputValue = inputValue.trim();
-    let message = '';
-
-    if(ingredientTagCheckedTab.length > 0 || ustensilTagCheckedTab.length > 0 || deviceTagCheckedTab.length > 0) {
-        if(!searchBar.value) {
-            searchWithTag(recipes, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab)
-            displaySearchRecipes(resultTag)
+    inputValue = inputValue.trim();   
+    let result = []; 
+    if(!inputValue.length && !ingredientTagCheckedTab.length && !ustensilTagCheckedTab.length && !deviceTagCheckedTab.length) { 
+        return displaySearchRecipes(recipes);
+    }
+    recipes.forEach(recipe => { 
+        if(inputValue.length > 3 && !ingredientTagCheckedTab.length && !ustensilTagCheckedTab.length && !deviceTagCheckedTab.length) {
+            if(recipe.includeName(inputValue) || recipe.includeDescription(inputValue) || recipe.includeIngredient(inputValue)) {
+                result.push(recipe);        
+            }
         }
-        else{
-            searchWithTag(recipes, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab)
-            searchWithBar(resultTag, inputValue); 
-            displaySearchRecipes(resultTag) 
+        if(ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
+            if(ingredientTagCheckedTab.every(ingredient => recipe.includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => recipe.includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => recipe.includeAppliance(device))) {
+                result.push(recipe)
+            }
+        }
+    })
+    if(inputValue.length > 3 && ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
+        let searchInTag = [];
+        result.forEach((recipe) => {
+            if(recipe.includeName(inputValue) || recipe.includeDescription(inputValue) || recipe.includeIngredient(inputValue)) {
+                searchInTag.push(recipe);        
+            }
+        })
+        if(!searchInTag.length){
+           return noRecipe();
+        }
+        else {
+            return displaySearchRecipes(searchInTag);
         }
     }
-    else{  
-        if(!searchBar.value && ingredientTagCheckedTab || ustensilTagCheckedTab || deviceTagCheckedTab.length){
-            searchWithTag(resultTag, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab)
+    if(result.length) {
+        result = [...new Set(result)].sort();
+        return displaySearchRecipes(result)
+    }
+    else{
+        if(inputValue.length > 3) {
+            return noRecipe();
         }
-        searchWithBar(recipeClass, inputValue)
-        displaySearchRecipes(resultTag)
     }
-    if(searchBar.value.length < 3 && ingredientTagCheckedTab.length == 0 && ustensilTagCheckedTab.length == 0  && deviceTagCheckedTab.length == 0) {
-        message = 'Veuillez entrer au moins 3 caractères'
-        noRecipe(message);
-    }
-    else {
-        if(resultTag.length == 0) {
-            message = 'Aucune recettes correspondent à vos critères. Essayez "tarte aux pommes", "poisson" ou changez les filtres de recherche.'
-            noRecipe (message)
-        }
-    }    
-    if(!searchBar.value && ingredientTagCheckedTab.length == 0 && ustensilTagCheckedTab.length == 0  && deviceTagCheckedTab.length == 0) {
-        displaySearchRecipes(recipeClass)
-        return resultTag = []
-    }
-    
-    
-    resultTag = [...new Set(resultTag)];
-    return resultTag
 }
 
-function noRecipe (message) {
+function noRecipe () {
     recipeSection.innerHTML = '';
     const displayMessage = document.createElement('h3');
     displayMessage.classList.add('displayMessage');
-    displayMessage.textContent = message;
+    displayMessage.textContent = 'Aucune recette ne correspond à votre critère… vous pouvez chercher « tarte aux pommes », « poisson », etc';
     recipeSection.appendChild(displayMessage);
 
-}
-
-function searchWithBar(recipes, inputValue) {
-    if(inputValue.length >= 3) { 
-        recipes.forEach(recipe => {
-            if(recipe.includeName(inputValue) || recipe.includeDescription(inputValue) || recipe.includeIngredient(inputValue)) {
-                resultTag.push(recipe);         
-            }
-        })
-        resultTag.forEach(recipe => {
-            if(!recipe.includeName(inputValue) || !recipe.includeDescription(inputValue) || !recipe.includeIngredient(inputValue)) {
-                removeElementFromArray (resultTag, recipe)         
-            }
-        })
-        resultTag = [... new Set(resultTag)];
-        return resultTag;
-    }
-}
-
-// ici la branch native
-
-function searchWithTag(recipes, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab) {
-    recipes.forEach(recipe => {
-        ingredientTagCheckedTab.forEach(ingredient => {
-            if(recipe.includeIngredient(ingredient)) {
-                resultTag.push(recipe);
-                resultTag = [...new Set(resultTag)];
-            }
-            else {
-                let here = resultTag.indexOf(recipe);
-                if(here !== -1) {
-                    resultTag.splice(here, 1)
-                }   
-            } 
-        })
-        ustensilTagCheckedTab.forEach(ustensil => {
-            if(recipe.includeUstensil(ustensil)) {
-                resultTag.push(recipe)
-                resultTag = [...new Set(resultTag)];
-            }
-            else {
-                let here = resultTag.indexOf(recipe);
-                if(here !== -1) {
-                    resultTag.splice(here, 1)
-                }   
-            }
-        })
-        deviceTagCheckedTab.forEach(device => {
-            if(recipe.includeAppliance(device)) {
-                resultTag.push(recipe)
-                resultTag = [...new Set(resultTag)];
-            }
-            else {
-                let here = resultTag.indexOf(recipe);
-                if(here !== -1) {
-                    resultTag.splice(here, 1)
-                }   
-            }
-        })
-        
-    });
-    resultTag = [...new Set(resultTag)];
-    return resultTag
 }
 
 export function searchInIngredientTag(ingredientsTab, inputValue){
