@@ -19,25 +19,25 @@ export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, us
     if(!inputValue.length && !ingredientTagCheckedTab.length && !ustensilTagCheckedTab.length && !deviceTagCheckedTab.length) { 
         return displaySearchRecipes(recipes);
     }
-    recipes.forEach(recipe => { 
+    for(let i = 0; i < recipes.length; i++) {
         if(inputValue.length > 3 && !ingredientTagCheckedTab.length && !ustensilTagCheckedTab.length && !deviceTagCheckedTab.length) {
-            if(recipe.includeName(inputValue) || recipe.includeDescription(inputValue) || recipe.includeIngredient(inputValue)) {
-                result.push(recipe);        
+            if(recipes[i].includeName(inputValue) || recipes[i].includeDescription(inputValue) || recipes[i].includeIngredient(inputValue)) {
+                result.push(recipes[i]);        
             }
         }
         if(ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
-            if(ingredientTagCheckedTab.every(ingredient => recipe.includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => recipe.includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => recipe.includeAppliance(device))) {
-                result.push(recipe)
+            if(ingredientTagCheckedTab.every(ingredient => recipes[i].includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => recipes[i].includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => recipes[i].includeAppliance(device))) {
+                result.push(recipes[i])
             }
         }
-    })
+    }
     if(inputValue.length > 3 && ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
         let searchInTag = [];
-        result.forEach((recipe) => {
-            if(recipe.includeName(inputValue) || recipe.includeDescription(inputValue) || recipe.includeIngredient(inputValue)) {
-                searchInTag.push(recipe);        
+        for(let i = 0; i < result.length; i++) {
+            if(result[i].includeName(inputValue) || result[i].includeDescription(inputValue) || result[i].includeIngredient(inputValue)) {
+                searchInTag.push(result[i]);        
             }
-        })
+        }
         if(!searchInTag.length){
            return noRecipe();
         }

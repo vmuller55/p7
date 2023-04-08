@@ -52,11 +52,11 @@ function displayRecipe(recipes) {
  */
 export function displaySearchRecipes(recipes) {
     let recipeSection = document.getElementById("recipeCards");
-    recipeSection.innerHTML = ''
-    recipes.forEach(recipe => { 
-        const createDom = recipe.createDom();
+    recipeSection.innerHTML = '';
+    for(let i = 0; i < recipes.length; i++) {
+        const createDom = recipes[i].createDom();
         recipeSection.appendChild(createDom);
-    })
+    }
     createTabTag(recipes)  
 }
 /**

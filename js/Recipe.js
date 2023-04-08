@@ -97,11 +97,11 @@ export default class Recipe {
     
     includeIngredient(ingredientSearch) {
         let result = false;
-        this.ingredients.forEach(ingredient => {
-            if(ingredient.ingredient.trim().toLowerCase().includes(ingredientSearch.toLowerCase())) {
+        for(let i = 0; i< this.ingredients.length; i++) {
+            if(this.ingredients[i].ingredient.trim().toLowerCase().includes(ingredientSearch.toLowerCase())) {
                 result = true;
             }
-        }) 
+        } 
         return result;  
     }
 
@@ -111,11 +111,11 @@ export default class Recipe {
 
     includeUstensil(ustensilSearch) {
         let result = false;
-        this.ustensils.forEach(ustensil => {
-            if(ustensil.toLowerCase().includes(ustensilSearch.toLowerCase())) {
-                result= true;
+        for(let i = 0; i< this.ustensils.length; i++) {
+            if(this.ustensils[i].trim().toLowerCase().includes(ustensilSearch.toLowerCase())) {
+                result = true;
             }
-        })
+        } 
         return result;
     }
 }
