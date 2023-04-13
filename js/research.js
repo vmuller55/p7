@@ -43,7 +43,6 @@ export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, us
 
     if(ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
         lastResult = [];
-        console.log("ici")
         for(let i = 0; i < recipes.length; i++){
             if(ingredientTagCheckedTab.every(ingredient => recipes[i].includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => recipes[i].includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => recipes[i].includeAppliance(device))) {
                 lastResult.push(recipes[i])
@@ -52,7 +51,6 @@ export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, us
     }
 
     if(lastResult.length) {
-        console.log('ici aussi')
         lastResult = [...new Set(lastResult)].sort();
         return displaySearchRecipes(lastResult)
     }
