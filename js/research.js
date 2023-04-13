@@ -28,7 +28,7 @@ export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, us
     if(!inputValue.length && !ingredientTagCheckedTab.length && !ustensilTagCheckedTab.length && !deviceTagCheckedTab.length) { 
         return displaySearchRecipes(recipes);
     }
-    if(inputValue.length >= 3 ) {
+    if(inputValue.length >= 3) {
         result = [];
         /**
          * Utilisation de la classe Recipe pour vérifier si la recette contient la valeur recherchée dans son nom, sa description ou ses ingrédients
@@ -43,13 +43,12 @@ export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, us
 
     if(ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
         lastResult = [];
-        for(let i = 0; i < recipes.length; i++){
-            if(ingredientTagCheckedTab.every(ingredient => recipes[i].includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => recipes[i].includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => recipes[i].includeAppliance(device))) {
-                lastResult.push(recipes[i])
+        recipes.forEach(recipe => {
+            if(ingredientTagCheckedTab.every(ingredient => recipe.includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => recipe.includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => recipe.includeAppliance(device))) {
+                lastResult.push(recipe)
             }
-        }   
+        })
     }
-
     if(lastResult.length) {
         lastResult = [...new Set(lastResult)].sort();
         return displaySearchRecipes(lastResult)
