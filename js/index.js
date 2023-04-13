@@ -44,6 +44,9 @@ function displayRecipe(recipes) {
         const createDom = createRecipe.createDom();
         recipeSection.appendChild(createDom);
     });
+    /**
+     * Permet de mettre à jour les filtres sélectionnables 
+     */
     createTabTag((recipes))
 }
 /**
@@ -57,6 +60,9 @@ export function displaySearchRecipes(recipes) {
         const createDom = recipe.createDom();
         recipeSection.appendChild(createDom);
     })
+    /**
+     * Permet de mettre à jour les filtres sélectionnables 
+     */
     createTabTag(recipes)  
 }
 /**
@@ -204,14 +210,12 @@ function removeTag (type, element) {
         break;
     }
 }
-
 /**
  * Initialisation des fonctions primaires
  */
 function init() {
     displayRecipe(recipes);
 }
-
 init();
 /**
  * Gestion des événements sur les différents input
