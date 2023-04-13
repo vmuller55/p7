@@ -14,43 +14,53 @@ import {createTagDom} from './index.js';
  * @returns le resultat des recherches dans la variable resultat
  */
 export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab){
-    inputValue = inputValue.trim();   
-    let result = []; 
+    /**
+     * Permet de récupérer la valeur sans espaces autour
+     */
+    inputValue = inputValue.trim();
+    /**
+     * Tableau qui va recueillir les recettes correspondantes à la recherche
+     */  
+    let result = recipes;
+    /**
+     * Permet d'afficher l'ensemble des recettes lorsque aucun tag n'est sélectionné et aucun que la barre de recherche est vide
+     */
     if(!inputValue.length && !ingredientTagCheckedTab.length && !ustensilTagCheckedTab.length && !deviceTagCheckedTab.length) { 
         return displaySearchRecipes(recipes);
     }
-    for(let i = 0; i < recipes.length; i++) {
-        if(inputValue.length > 3 && !ingredientTagCheckedTab.length && !ustensilTagCheckedTab.length && !deviceTagCheckedTab.length) {
+    if(inputValue.length >= 3 ) {
+        result = [];
+        /**
+         * Utilisation de la classe Recipe pour vérifier si la recette contient la valeur recherchée dans son nom, sa description ou ses ingrédients
+         */
+        for(let i = 0; i < recipes.length; i++) {
             if(recipes[i].includeName(inputValue) || recipes[i].includeDescription(inputValue) || recipes[i].includeIngredient(inputValue)) {
                 result.push(recipes[i]);        
             }
         }
-        if(ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
+    }
+    let lastResult = result;
+
+    if(ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
+        lastResult = [];
+        console.log("ici")
+        for(let i = 0; i < recipes.length; i++){
             if(ingredientTagCheckedTab.every(ingredient => recipes[i].includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => recipes[i].includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => recipes[i].includeAppliance(device))) {
-                result.push(recipes[i])
+                lastResult.push(recipes[i])
             }
-        }
+        }   
     }
-    if(inputValue.length > 3 && ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
-        let searchInTag = [];
-        for(let i = 0; i < result.length; i++) {
-            if(result[i].includeName(inputValue) || result[i].includeDescription(inputValue) || result[i].includeIngredient(inputValue)) {
-                searchInTag.push(result[i]);        
-            }
-        }
-        if(!searchInTag.length){
-           return noRecipe();
-        }
-        else {
-            return displaySearchRecipes(searchInTag);
-        }
-    }
-    if(result.length) {
-        result = [...new Set(result)].sort();
-        return displaySearchRecipes(result)
+
+    if(lastResult.length) {
+        console.log('ici aussi')
+        lastResult = [...new Set(lastResult)].sort();
+        return displaySearchRecipes(lastResult)
     }
     else{
-        if(inputValue.length > 3) {
+        /**
+         * Sinon, si la valeur de la barre de recherche est supérieure à 3 et qu'aucun résultat n'est trouvé, affichage d'un message
+         */
+        if(inputValue.length >= 3) {
             return noRecipe();
         }
     }
