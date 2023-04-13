@@ -37,7 +37,10 @@ var devicesTab = [];
  */
 function displayRecipe(recipes) {
     let recipeSection = document.getElementById("recipeCards");
-    recipeSection.innerHTML = ''
+    recipeSection.innerHTML = '';
+    /**
+     * for let
+     */
     recipes.forEach(recipe => {    
         const createRecipe = new Recipe(recipe);
         allRecipe.push(createRecipe);
