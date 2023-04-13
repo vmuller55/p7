@@ -40,7 +40,6 @@ export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, us
         }
     }
     let lastResult = result;
-
     if(ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
         lastResult = [];
         recipes.forEach(recipe => {
