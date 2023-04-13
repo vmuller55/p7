@@ -17,7 +17,10 @@ export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, us
     /**
      * Permet de récupérer la valeur sans espaces autour
      */
-    inputValue = inputValue.trim();   
+    inputValue = inputValue.trim();
+    /**
+     * Tableau qui va recueillir les recettes correspondantes à la recherche
+     */  
     let result = [];
     /**
      * Permet d'afficher l'ensemble des recettes lorsque aucun tag n'est sélectionné et aucun que la barre de recherche est vide
