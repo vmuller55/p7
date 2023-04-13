@@ -21,72 +21,46 @@ export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, us
     /**
      * Tableau qui va recueillir les recettes correspondantes à la recherche
      */  
-    let result = [];
+    let result = recipes;
     /**
      * Permet d'afficher l'ensemble des recettes lorsque aucun tag n'est sélectionné et aucun que la barre de recherche est vide
      */
     if(!inputValue.length && !ingredientTagCheckedTab.length && !ustensilTagCheckedTab.length && !deviceTagCheckedTab.length) { 
         return displaySearchRecipes(recipes);
     }
-    recipes.forEach(recipe => { 
+    if(inputValue.length >= 3 ) {
+        result = [];
         /**
-         * Si aucun tag n'est sélectionné et que la valeur de la barre de recherche est supérieure à 3
+         * Utilisation de la classe Recipe pour vérifier si la recette contient la valeur recherchée dans son nom, sa description ou ses ingrédients
          */
-        if(inputValue.length > 3 && !ingredientTagCheckedTab.length && !ustensilTagCheckedTab.length && !deviceTagCheckedTab.length) {
-            /**
-             * Utilisation de la classe Recipe pour vérifier si la recette contient la valeur recherchée dans son nom, sa description ou ses ingrédients
-             */
+        recipes.forEach(recipe => {
             if(recipe.includeName(inputValue) || recipe.includeDescription(inputValue) || recipe.includeIngredient(inputValue)) {
                 result.push(recipe);        
             }
-        }
-        /**
-         * Si un ou plusieurs tags ont été sélectionnés
-         */
-        if(ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
-            /**
-             * Utilisation de la methode every pour vérifier si chaque tag sélectionnés est present dans une recette
-             */
-            if(ingredientTagCheckedTab.every(ingredient => recipe.includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => recipe.includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => recipe.includeAppliance(device))) {
-                result.push(recipe)
-            }
-        }
-    })
-    /**
-     * Si la barre de recherche contient une valeur supérieure à 3 ET que un ou plusieurs tags ont été sélectionnés
-     */
-    if(inputValue.length > 3 && ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
-        let searchInTag = [];
-        /**
-         * Pour chaque recette déjà trouvée
-         */
-        result.forEach((recipe) => {
-            if(recipe.includeName(inputValue) || recipe.includeDescription(inputValue) || recipe.includeIngredient(inputValue)) {
-                searchInTag.push(recipe);        
-            }
         })
-        /**
-         * Si aucune recette ne correspond affichage d'un message
-         */
-        if(!searchInTag.length){
-           return noRecipe();
-        }
-        else {
-            return displaySearchRecipes(searchInTag);
-        }
+        
     }
-    /**
-     * S'il y a un résultat à la recherche new Set pour supprimer les doublons et .sort pour trier
-     */
-    if(result.length) {
-        result = [...new Set(result)].sort();
-        return displaySearchRecipes(result)
+    let lastResult = result;
+
+    if(ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
+        lastResult = [];
+        result.forEach(recipe=> {
+            if(ingredientTagCheckedTab.every(ingredient => recipe.includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => recipe.includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => recipe.includeAppliance(device))) {
+                lastResult.push(recipe)
+            }
+        })   
+    }
+
+
+    if(lastResult.length) {
+        lastResult = [...new Set(lastResult)].sort();
+        return displaySearchRecipes(lastResult)
     }
     else{
         /**
          * Sinon, si la valeur de la barre de recherche est supérieure à 3 et qu'aucun résultat n'est trouvé, affichage d'un message
          */
-        if(inputValue.length > 3) {
+        if(inputValue.length >= 3) {
             return noRecipe();
         }
     }
