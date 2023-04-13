@@ -42,11 +42,11 @@ export function principalSearch(recipes, inputValue, ingredientTagCheckedTab, us
     let lastResult = result;
     if(ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
         lastResult = [];
-        recipes.forEach(recipe => {
-            if(ingredientTagCheckedTab.every(ingredient => recipe.includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => recipe.includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => recipe.includeAppliance(device))) {
-                lastResult.push(recipe)
+        for(let i =0; i < result.length; i++) {
+            if(ingredientTagCheckedTab.every(ingredient => result[i].includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => result[i].includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => result[i].includeAppliance(device))) {
+                lastResult.push(result[i])
             }
-        })
+        }
     }
     if(lastResult.length) {
         lastResult = [...new Set(lastResult)].sort();

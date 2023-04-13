@@ -38,15 +38,12 @@ var devicesTab = [];
 function displayRecipe(recipes) {
     let recipeSection = document.getElementById("recipeCards");
     recipeSection.innerHTML = '';
-    /**
-     * for let
-     */
-    recipes.forEach(recipe => {    
-        const createRecipe = new Recipe(recipe);
+    for(let i = 0; i < recipes.length; i++){
+        const createRecipe = new Recipe(recipes[i]);
         allRecipe.push(createRecipe);
         const createDom = createRecipe.createDom();
         recipeSection.appendChild(createDom);
-    });
+    }
     createTabTag((recipes))
 }
 /**
