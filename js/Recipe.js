@@ -11,9 +11,9 @@ export default class Recipe {
   }
 
   /**
-     * Création du code HTML relatif aux cards des recettes
-     * @returns la balise article qui englobe toute la card
-     */
+   * Création du code HTML relatif aux cards des recettes
+   * @returns la balise article qui englobe toute la card
+   */
   createDom () {
     const article = document.createElement('article')
     article.classList.add('recipeCard')
@@ -86,10 +86,10 @@ export default class Recipe {
   }
 
   /**
-     * Permet de retourner vrai si la valeur recherchée est incluse dans le nom de la recette
-     * @param {string} nameSearch
-     * @returns true/false
-     */
+   * Permet de retourner vrai si la valeur recherchée est incluse dans le nom de la recette
+   * @param {string} nameSearch
+   * @returns true/false
+   */
   includeName (nameSearch) {
     return this.name.toLowerCase().includes(nameSearch.toLowerCase())
   }
