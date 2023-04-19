@@ -1,71 +1,82 @@
-/* eslint-disable import/no-duplicates */
 /**
- * Importation des fonctions nécéssaires
+ * Importation des fonctions nécessaires
  */
-import { displaySearchRecipes } from './index.js'
-import { createTagDom } from './index.js'
+import { displaySearchRecipes, createTagDom } from './index.js'
 const recipeSection = document.getElementById('recipeCards')
 /**
- * Permet d'initialiser la fonction de recherche par tag ou avec la barre de recherche selon plusieurs conditions
+ * Permet d'incrémenter un tableau avec les recettes contenant le/les tags et/ou la valeur de la barre de recherche
  * @param {Array} recipes Les recettes dans lesquels faire la recherche
  * @param {string} inputValue La valeur recherchée
- * @param {Array} ingredientTagCheckedTab le tableau des ingrédients séléctionnés
- * @param {Array} ustensilTagCheckedTab le tableau des ustensils séléctionnés
- * @param {Array} deviceTagCheckedTab le tableau des appareils séléctionnés
- * @returns le resultat des recherches dans la variable resultat
+ * @param {Array} ingredientTagCheckedTab le tableau des ingrédients sélectionnés
+ * @param {Array} ustensilTagCheckedTab le tableau des ustensiles sélectionnés
+ * @param {Array} deviceTagCheckedTab le tableau des appareils sélectionnés
+ * @returns le résultat des recherches dans la variable résultat
  */
 export function principalSearch (recipes, inputValue, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab) {
   /**
-     * Permet de récupérer la valeur sans espaces autour
-     */
+   * Permet de récupérer la valeur sans espaces autour
+   */
   inputValue = inputValue.trim()
   /**
-     * Tableau qui va recueillir les recettes correspondantes à la recherche
-     */
+   * Tableau qui va recueillir les recettes correspondantes à la recherche, initialisé avec l'ensemble des recettes et mis à zéro seulement lors d'une recherche
+   */
   let result = recipes
   /**
-     * Permet d'afficher l'ensemble des recettes lorsque aucun tag n'est sélectionné et aucun que la barre de recherche est vide
-     */
+   * Permet d'afficher l'ensemble des recettes lorsque aucun tag n'est sélectionné et que la barre de recherche est vide
+   */
   if (!inputValue.length && !ingredientTagCheckedTab.length && !ustensilTagCheckedTab.length && !deviceTagCheckedTab.length) {
     return displaySearchRecipes(recipes)
   }
+  /**
+   * Permet de commencer la recherche lorsque la valeur saisie contient 3 caractères ou plus
+   */
   if (inputValue.length >= 3) {
     result = []
     /**
-         * Utilisation de la classe Recipe pour vérifier si la recette contient la valeur recherchée dans son nom, sa description ou ses ingrédients
-         */
+     * Utilisation de la classe Recipe pour vérifier si la recette contient la valeur recherchée dans son nom, sa description ou ses ingrédients
+     */
     recipes.forEach(recipe => {
       if (recipe.includeName(inputValue) || recipe.includeDescription(inputValue) || recipe.includeIngredient(inputValue)) {
         result.push(recipe)
       }
     })
   }
+  /**
+   * Tableau qui va recueillir les résultats des filtres, initialisé avec les résultats de la recherche précédente
+   */
   let lastResult = result
-
+  /**
+   * S'il y a des filtres sélectionnés
+   */
   if (ingredientTagCheckedTab.length || ustensilTagCheckedTab.length || deviceTagCheckedTab.length) {
     lastResult = []
+    /**
+     * Si une recette parmi les résultats précédents contient les tags sélectionnés, elle est ajoutée dans le tableau
+     */
     result.forEach(recipe => {
       if (ingredientTagCheckedTab.every(ingredient => recipe.includeIngredient(ingredient)) && ustensilTagCheckedTab.every(ustensil => recipe.includeUstensil(ustensil)) && deviceTagCheckedTab.every(device => recipe.includeAppliance(device))) {
         lastResult.push(recipe)
       }
     })
   }
-
+  /**
+   * S'il y a un résultat
+   */
   if (lastResult.length) {
     lastResult = [...new Set(lastResult)].sort()
     return displaySearchRecipes(lastResult)
   } else {
     /**
-         * Sinon, si la valeur de la barre de recherche est supérieure à 3 et qu'aucun résultat n'est trouvé, affichage d'un message
-         */
+     * Sinon, si la valeur de la barre de recherche est supérieure à 3, affichage d'un message
+     */
     if (inputValue.length >= 3) {
       return noRecipe()
     }
   }
 }
 /**
- * Fonction qui permet d'afficher un message lorsqu'aucune recette n'est trouvée
- */
+  * Fonction qui permet d'afficher un message lorsqu'aucune recette n'est trouvée
+  */
 function noRecipe () {
   recipeSection.innerHTML = ''
   const displayMessage = document.createElement('h3')

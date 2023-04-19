@@ -1,10 +1,6 @@
 import { recipes } from './recipes.js'
 import Recipe from './Recipe.js'
 import { principalSearch, searchInIngredientTag, searchInDeviceTag, searchInUstensilTag } from './research.js'
-const ustensilHide = document.querySelector('.ustensilBtn')
-const deviceHide = document.querySelector('.deviceBtn')
-const ingredientHide = document.querySelector('.ingredientBtn')
-const mediaQuery = window.matchMedia('(max-width: 749px)')
 /**
  * Tableau dans lequel on va initialiser toutes les recettes
  */
@@ -23,20 +19,27 @@ const ustensilListOpen = document.getElementById('ustensilsDown')
 const ustensilListClose = document.getElementById('ustensilsUp')
 const inputUstensil = document.getElementById('inputUstensil')
 /**
- * Tableaux des filtres séléctionnés
+ * Gestion de l'affichage du responsive
+ */
+const ustensilHide = document.querySelector('.ustensilBtn')
+const deviceHide = document.querySelector('.deviceBtn')
+const ingredientHide = document.querySelector('.ingredientBtn')
+const mediaQuery = window.matchMedia('(max-width: 749px)')
+/**
+ * Tableaux des filtres sélectionnés
  */
 const ingredientTagCheckedTab = []
 const ustensilTagCheckedTab = []
 const deviceTagCheckedTab = []
 /**
- * Tableaux des filtres séléctionnable
+ * Tableaux des filtres sélectionnables
  */
 let ingredientsTab = []
 let ustensilsTab = []
 let devicesTab = []
 /**
  * Utilise la classe Recipe pour le premier affichage des recettes
- * @param {Array} recipes Tableaux des recettes séléctionnées
+ * @param {Array} recipes Tableaux des recettes sélectionnées
  */
 function displayRecipe (recipes) {
   const recipeSection = document.getElementById('recipeCards')
@@ -48,8 +51,8 @@ function displayRecipe (recipes) {
     recipeSection.appendChild(createDom)
   })
   /**
-     * Permet de mettre à jour les filtres sélectionnables
-     */
+   * Permet de mettre à jour les filtres sélectionnables
+   */
   createTabTag((recipes))
 }
 /**
@@ -64,8 +67,8 @@ export function displaySearchRecipes (recipes) {
     recipeSection.appendChild(createDom)
   })
   /**
-     * Permet de mettre à jour les filtres sélectionnables
-     */
+   * Permet de mettre à jour les filtres sélectionnables
+   */
   createTabTag(recipes)
 }
 /**
@@ -85,7 +88,7 @@ export function createTabTag (recipes) {
   })
 }
 /**
- * Permet de filtrer les éléments séléctionables dans les filtres
+ * Permet de filtrer les éléments sélectionables dans les filtres
  * @param {Array} recipes
  */
 function filterTabTag (recipes) {
@@ -93,14 +96,14 @@ function filterTabTag (recipes) {
   ustensilsTab = []
   devicesTab = []
   /**
-     * permet d'afficher l'ensemble des éléments si aucun tag est séléctionné et si aucune valeur est présente dans la barre de recherche
-     */
+   * Permet d'afficher l'ensemble des éléments si aucun tag n'est sélectionné et si aucune valeur est présente dans la barre de recherche
+   */
   if (!searchBar.value && !ingredientTagCheckedTab.length && !ustensilTagCheckedTab.length && !deviceTagCheckedTab.length) {
     recipes = allRecipe
   }
   /**
-     * Supression du précédent contenu des listes
-     */
+   * Suppression du précédent contenu des listes
+   */
   const ingredientList = document.getElementById('ingredientsList')
   const deviceList = document.getElementById('devicesList')
   const ustensilList = document.getElementById('ustensilsList')
@@ -108,8 +111,8 @@ function filterTabTag (recipes) {
   deviceList.innerHTML = ''
   ustensilList.innerHTML = ''
   /**
-     * Ajout des éléments selon les recettes
-     */
+   * Ajout des éléments selon les recettes
+   */
   recipes.forEach(recipe => {
     recipe.ingredients.forEach((ingredient) => {
       ingredientsTab.push(ingredient.ingredient.charAt(0).toUpperCase() + ingredient.ingredient.slice(1).toLowerCase())
@@ -120,14 +123,14 @@ function filterTabTag (recipes) {
     devicesTab.push(recipe.appliance.charAt(0).toUpperCase() + recipe.appliance.slice(1).toLowerCase())
   })
   /**
-     * Permet de supprimer les doublons et de trier par ordre alphabetique
-     */
+   * Permet de supprimer les doublons et de trier par ordre alphabétique
+   */
   ingredientsTab = [...new Set(ingredientsTab)].sort()
   ustensilsTab = [...new Set(ustensilsTab)].sort()
   devicesTab = [...new Set(devicesTab)].sort()
   /**
-     * Permet de supprimer un tag déjà séléctionné de la liste
-     */
+   * Permet de supprimer un tag déjà sélectionné de la liste
+   */
   removeExistingTagFromList(ingredientTagCheckedTab, ingredientsTab)
   removeExistingTagFromList(ustensilTagCheckedTab, ustensilsTab)
   removeExistingTagFromList(deviceTagCheckedTab, devicesTab)
@@ -156,8 +159,8 @@ export function createTagDom (element, type) {
   liTag.textContent = element
   ulLocation.appendChild(liTag)
   /**
-     * Permet de gérer les evenements au clic sut le tag
-     */
+   * Permet de gérer les événements au clic sut le tag
+   */
   liTag.addEventListener('click', () => {
     addTag(element, type)
     addTagInTab(element, type)
@@ -165,7 +168,7 @@ export function createTagDom (element, type) {
   })
 }
 /**
- * Permet d'ajouter un tag dans la liste au tableau de tag séléctionnés correspondant
+ * Permet d'ajouter un tag dans la liste au tableau de tag sélectionnés correspondant
  * @param {string} element
  * @param {string} type
  */
@@ -183,7 +186,7 @@ function addTagInTab (element, type) {
   };
 }
 /**
- * Permet de créer le tag séléctionné
+ * Permet de créer le tag sélectionné
  * @param {string} element
  * @param {string} type
  */
@@ -197,8 +200,8 @@ function addTag (element, type) {
   liTag.appendChild(closeCross)
   ulLocation.appendChild(liTag)
   /**
-     * Gestion de la suppréssion du tag
-     */
+   * Gestion de la suppression du tag
+   */
   closeCross.addEventListener('click', () => {
     liTag.remove()
     removeTag(type, element)
@@ -206,14 +209,14 @@ function addTag (element, type) {
   })
 }
 /**
- * Permet de supprimer le tag du tableau des tags séléctionnés et de faire une recherche sur les tags restant si il y en a.
+ * Permet de supprimer le tag du tableau des tags sélectionnés et de faire une recherche sur les tags restants s'il y en a
  * @param {string} type
  * @param {string} element
  */
 function removeTag (type, element) {
   /**
-     * Suppréssion des tags dans les tableaux
-     */
+   * Suppression des tags dans les tableaux
+   */
   switch (type) {
     case 'ingredients' :
       removeElementFromArray(ingredientTagCheckedTab, element)
@@ -226,11 +229,18 @@ function removeTag (type, element) {
       break
   }
 }
+/**
+ * Permet la gestion de l'ouverture et la fermeture des listes de tags sélectionnables
+ * @param {string} type
+ */
 function openList (type) {
   const whichList = document.querySelector('.' + type + 'List')
   whichList.style.display = 'block'
   const whichBtn = document.querySelector('.' + type + 'Btn')
   whichBtn.style.width = '600px'
+  /**
+   * Pour le format 'mobile'
+   */
   if (mediaQuery.matches) {
     console.log('ici')
     switch (type) {
@@ -255,7 +265,6 @@ function openList (type) {
     }
   }
 }
-
 function closeList (type) {
   const whichList = document.querySelector('.' + type + 'List')
   whichList.style.display = 'none'
@@ -275,7 +284,7 @@ function init () {
 }
 init()
 /**
- * Gestion des événements sur les différents input
+ * Gestion des événements sur les différents inputs
  */
 searchBar.addEventListener('input', () => {
   principalSearch(allRecipe, searchBar.value, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab)
