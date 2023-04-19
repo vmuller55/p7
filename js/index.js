@@ -1,7 +1,10 @@
 import { recipes } from './recipes.js'
 import Recipe from './Recipe.js'
 import { principalSearch, searchInIngredientTag, searchInDeviceTag, searchInUstensilTag } from './research.js'
-
+const ustensilHide = document.querySelector('.ustensilBtn')
+const deviceHide = document.querySelector('.deviceBtn')
+const ingredientHide = document.querySelector('.ingredientBtn')
+const mediaQuery = window.matchMedia('(max-width: 749px)')
 /**
  * Tableau dans lequel on va initialiser toutes les recettes
  */
@@ -228,6 +231,29 @@ function openList (type) {
   whichList.style.display = 'block'
   const whichBtn = document.querySelector('.' + type + 'Btn')
   whichBtn.style.width = '600px'
+  if (mediaQuery.matches) {
+    console.log('ici')
+    switch (type) {
+      case 'ingredient' :
+        console.log('ici')
+        ustensilHide.style.display = 'none'
+        deviceHide.style.display = 'none'
+        whichBtn.style.width = '400px'
+        break
+      case 'device' :
+        console.log('ici')
+        ustensilHide.style.display = 'none'
+        ingredientHide.style.display = 'none'
+        whichBtn.style.width = '400px'
+        break
+      case 'ustensil' :
+        console.log('ici')
+        ingredientHide.style.display = 'none'
+        deviceHide.style.display = 'none'
+        whichBtn.style.width = '400px'
+        break
+    }
+  }
 }
 
 function closeList (type) {
@@ -235,6 +261,11 @@ function closeList (type) {
   whichList.style.display = 'none'
   const whichBtn = document.querySelector('.' + type + 'Btn')
   whichBtn.style.width = 'unset'
+  if (mediaQuery.matches) {
+    ustensilHide.style.display = 'flex'
+    ingredientHide.style.display = 'flex'
+    deviceHide.style.display = 'flex'
+  }
 }
 /**
  * Initialisation des fonctions primaires
@@ -251,13 +282,13 @@ searchBar.addEventListener('input', () => {
 })
 searchBar.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault() } })
 
-ingredientListOpen.addEventListener('click', () => { openList('ingredient'); closeList('device'); closeList('ustensil') })
+ingredientListOpen.addEventListener('click', () => { openList('ingredient'); if (!mediaQuery.matches) { closeList('device'); closeList('ustensil') } })
 ingredientListClose.addEventListener('click', () => { closeList('ingredient') })
 
-deviceListOpen.addEventListener('click', () => { openList('device'); closeList('ingredient'); closeList('ustensil') })
+deviceListOpen.addEventListener('click', () => { openList('device'); if (!mediaQuery.matches) { closeList('ingredient'); closeList('ustensil') } })
 deviceListClose.addEventListener('click', () => { closeList('device') })
 
-ustensilListOpen.addEventListener('click', () => { openList('ustensil'); closeList('device'); closeList('ingredient') })
+ustensilListOpen.addEventListener('click', () => { openList('ustensil'); if (!mediaQuery.matches) { closeList('device'); closeList('ingredient') } })
 ustensilListClose.addEventListener('click', () => { closeList('ustensil') })
 
 inputIngredient.addEventListener('input', () => { searchInIngredientTag(ingredientsTab, inputIngredient.value, ingredientTagCheckedTab, ustensilTagCheckedTab, deviceTagCheckedTab) })
